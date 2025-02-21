@@ -1,26 +1,27 @@
 from flask import Flask, jsonify
-from flask_mysqldb import MySQL
+from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
-app.config['MYSQL_DB'] = 'LibOnline'
+# Configuración de la base de datos MySQL
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
+app.config['MYSQL_DATABASE_DB'] = 'LibOnline'
+app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'  # Asegúrate de que esta línea esté presente
 
-conexion = MySQL(app)
+mysql = MySQL()
+mysql.init_app(app)
 
-@app.route('/usuario')
+@app.route('/messi')
 def usuarios():
-    data={}
+    data = {}
     try:
-        cursor=conexion.connection.cursor()
-        sql="SELECT nombre, apellidos, numero_telefonico FROM usuarios"
-        cursor.execute(sql)
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT nombre, apellidos, numero_telefonico FROM usuarios")
         usuarios = cursor.fetchall()
-        data['mensaje']='Éxito'
+        data['usuarios'] = usuarios
     except Exception as ex:
-        data['mensaje']='Error...'
+        data['mensaje'] = 'Error...'
     return jsonify(data)
-
 
