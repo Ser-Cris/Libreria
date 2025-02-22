@@ -19,5 +19,4 @@ def create_app():
     @app.route('/login')
     def login():
         return render_template('login.html')
-
     return app

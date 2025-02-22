@@ -1,4 +1,4 @@
-from flask import Flask, session,request,Blueprint
+from flask import Flask, session,request,Blueprint, render_template
 import mysqlconnector
 import json
 import os
@@ -18,15 +18,17 @@ def datitos():
 def index():
     correo = request.form.get('correo')
     contraseña = request.form.get('contrasena')
-    respuesta = mysqlconnector.Consulta_Usuarios(correo, contraseña)
-    respuesta = respuesta.get_data(as_text=True)
-    respuesta = json.loads(respuesta)
-    usuario = respuesta['usuarios'][0]
-
-    print(usuario)
-    session['usuario'] = usuario[1]
-    return 'Sesión iniciada para el usuario: ' + session['usuario']
-
+    try:
+        respuesta = mysqlconnector.Consulta_Usuarios(correo, contraseña)
+        respuesta = respuesta.get_data(as_text=True)
+        respuesta = json.loads(respuesta)
+        usuario = respuesta['usuarios'][0]
+        print(usuario)
+        session['usuario'] = usuario[1]
+        return 'Sesión iniciada para el usuario: ' + session['usuario']
+    except Exception as ex:
+        print('No tas en la base de datos')
+        return render_template('login.html', booleano=False)
 
 @rutas_login.route('/logout')
 def logout():

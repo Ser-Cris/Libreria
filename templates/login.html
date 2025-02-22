@@ -13,14 +13,16 @@
               <div class="mb-3">
                 <label for="correo" class="form-label">Correo electrónico</label>
                 <input type="email" class="form-control" id="correo" name="correo" aria-describedby="emailHelp">
-
               </div>
               <div class="mb-3">
                 <label for="contrasena" class="form-label">Contraseña</label>
                 <input type="password" class="form-control" id="contrasena" name="contrasena">
               </div>
               <button type="submit" class="btn btn-primary">Ingresar</button>
-            </form>
+          </form>
+          {% if booleano == False: %}
+          <script src="{{ url_for('static', filename='js/alerta.js')}}"></script>
+          {% endif %}
       </div>
     </div>
   </div>
