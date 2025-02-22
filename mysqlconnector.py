@@ -21,7 +21,24 @@ def usuarios():
         cursor.execute("SELECT nombre, apellidos, numero_telefonico FROM usuarios")
         usuarios = cursor.fetchall()
         data['usuarios'] = usuarios
+        conn.close()
     except Exception as ex:
         data['mensaje'] = 'Error...'
     return jsonify(data)
 
+@app.route('/cr7')
+def Consulta_Usuarios(correo,contrasena):
+    data = {}
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        proc_alma = "CALL VerificarUsuario(%s, %s)"
+        cursor.execute(proc_alma,(correo,contrasena))
+        print("yayirobe")
+        usuario = cursor.fetchall()
+        data['usuarios'] = usuario
+        print(data['usuarios'][0][3])
+        conn.close()
+    except Exception as ex:
+        data['mensaje'] = 'Error...'
+    return jsonify(data)
