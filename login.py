@@ -25,7 +25,11 @@ def index():
         usuario = respuesta['usuarios'][0]
         print(usuario)
         session['usuario'] = usuario[1]
-        return 'Sesión iniciada para el usuario: ' + session['usuario']
+        if usuario[3] != 'admin':
+            return render_template('home_usuario.html', usuario=usuario[1])
+        else:
+            return render_template('home_admin.html', usuario=usuario[1])
+            #return 'Sesión iniciada para el usuario: ' + session['usuario']
     except Exception as ex:
         print('No tas en la base de datos')
         return render_template('login.html', booleano=False)
@@ -33,7 +37,7 @@ def index():
 @rutas_login.route('/logout')
 def logout():
     session.pop('usuario', None)
-    return 'Sesión cerrada'
+    return render_template('index.html', cerrarSesión=True)
 
 
 
