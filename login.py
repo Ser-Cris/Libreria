@@ -1,9 +1,11 @@
 from flask import Flask, session,request,Blueprint
 import mysqlconnector
+import json
+import os
 rutas_login = Blueprint('login', __name__)
 
 
-rutas_login.secret_key = 'tu_clave_secreta'  # Necesario para usar sesiones
+ # Necesario para usar sesiones
 
 @rutas_login.route('/enviar_datos',methods=['POST'])
 def datitos():
@@ -12,9 +14,17 @@ def datitos():
     respuesta= mysqlconnector.Consulta_Usuarios(correo,contraseña)
     print(respuesta.get_data(as_text=True))
     return ("hola")
-@rutas_login.route('/entra')
+@rutas_login.route('/entra', methods=['POST'])
 def index():
-    session['usuario'] = 'nombre_de_usuario'
+    correo = request.form.get('correo')
+    contraseña = request.form.get('contrasena')
+    respuesta = mysqlconnector.Consulta_Usuarios(correo, contraseña)
+    respuesta = respuesta.get_data(as_text=True)
+    respuesta = json.loads(respuesta)
+    usuario = respuesta['usuarios'][0]
+
+    print(usuario)
+    session['usuario'] = usuario[1]
     return 'Sesión iniciada para el usuario: ' + session['usuario']
 
 

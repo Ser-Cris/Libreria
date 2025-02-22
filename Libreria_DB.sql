@@ -76,6 +76,30 @@ ALTER TABLE Compras ADD FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
 ALTER TABLE Envios ADD FOREIGN KEY (id_usuario) REFERENCES Compras(id_usuario);
 
 
+insert into logins(correo,contrasena, privilegio) values ("20223tn111@utez.edu.mx",'1234','user');
+insert into logins(correo,contrasena, privilegio) values ("messi@utez.edu.mx",'1234','admin');
+
+insert into direcciones(calle,estado,municipio,colonia,cp,num_exterior,num_interior) values ("1","2","3","4","5","6","7");
+insert into direcciones(calle,estado,municipio,colonia,cp,num_exterior,num_interior) values ("7","6","5","4","3","2","1");
+
+insert into usuarios(id_direccion, id_login,nombre,apellidos,numero_telefonico) values (1,1,"Cristobal Eduardo","Serrano Bahena", 7772689242);
+insert into usuarios(id_direccion, id_login,nombre,apellidos,numero_telefonico) values (2,2,"Lionel Andrés","Messi", 7772689243);
+
+
+DELIMITER $$
+CREATE PROCEDURE VerificarUsuario(
+	in chamo VARCHAR(40),
+    in chamo2 VARCHAR(256)
+)
+BEGIN
+    SELECT distinct * FROM Logins WHERE (correo = chamo AND contrasena=chamo2);
+END$$
+DELIMITER ;
+
+
+
+
+call VerificarUsuario('messi@utez.edu.mx','1234');
 
 /*
 show tables;
