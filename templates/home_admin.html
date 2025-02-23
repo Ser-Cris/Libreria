@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Bienvenido admin{% endblock %}
+
+{% block page_content %}
+
+<h1>Bienvenido usuario administrador! {{ usuario }}</h1>
+
+    <div class="d-flex justify-content-center col-12">
+        <button type="button" class="btn btn-success btn-lg col-6 mt-3" onclick="location.href='/logout'")>Cerrar Sesión</button>
+    </div>
+
+{% endblock %}
