@@ -14,7 +14,7 @@ PRIMARY KEY(id_usuario)
 
 create table Logins(
 id_login INT auto_increment,
-correo VARCHAR(40) NOT NULL,
+correo VARCHAR(256) NOT NULL,
 contrasena VARCHAR(256) NOT NULL,
 privilegio VARCHAR(15) NOT NULL,
 UNIQUE KEY (correo),
@@ -76,8 +76,19 @@ ALTER TABLE Compras ADD FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
 ALTER TABLE Envios ADD FOREIGN KEY (id_usuario) REFERENCES Compras(id_usuario);
 
 
-insert into logins(correo,contrasena, privilegio) values ("20223tn111@utez.edu.mx",'1234','user');
-insert into logins(correo,contrasena, privilegio) values ("messi@utez.edu.mx",'1234','admin');
+insert into logins(correo,contrasena, privilegio) values ("b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eYdm/VPLjttMYYTSVBSLrxCikTN0Gbwa'","b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'",'user');
+/*
+crico@utez.edu.mx encriptado:
+b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eYdm/VPLjttMYYTSVBSLrxCikTN0Gbwa'
+*/
+insert into logins(correo,contrasena, privilegio) values ("b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eOxTNSN27aeP6RpdrqCZqw8kpeKlVVJq'","b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'",'admin');
+/*
+messi@utez.edu.mx encriptado:
+b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eOxTNSN27aeP6RpdrqCZqw8kpeKlVVJq'
+contraseña de ambos encriptados (1234):
+b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'
+*/
+
 
 insert into direcciones(calle,estado,municipio,colonia,cp,num_exterior,num_interior) values ("1","2","3","4","5","6","7");
 insert into direcciones(calle,estado,municipio,colonia,cp,num_exterior,num_interior) values ("7","6","5","4","3","2","1");
@@ -88,7 +99,7 @@ insert into usuarios(id_direccion, id_login,nombre,apellidos,numero_telefonico) 
 
 DELIMITER $$
 CREATE PROCEDURE VerificarUsuario(
-	in chamo VARCHAR(40),
+	in chamo VARCHAR(256),
     in chamo2 VARCHAR(256)
 )
 BEGIN
@@ -99,7 +110,7 @@ DELIMITER ;
 
 
 
-call VerificarUsuario('messi@utez.edu.mx','1234');
+call VerificarUsuario("b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eOxTNSN27aeP6RpdrqCZqw8kpeKlVVJq'","b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'");
 
 /*
 show tables;

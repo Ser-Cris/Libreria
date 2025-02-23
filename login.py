@@ -2,6 +2,7 @@ from flask import Flask, session,request,Blueprint, render_template
 import mysqlconnector
 import json
 import os
+import bcrypt
 rutas_login = Blueprint('login', __name__)
 
 
@@ -18,12 +19,16 @@ def datitos():
 def index():
     correo = request.form.get('correo')
     contraseña = request.form.get('contrasena')
+    correoEn = correo.encode('utf-8')
+    contraseñaEn = contraseña.encode('utf-8')
+    sal = b'$2b$12$Bj2s7PI42QkpqlbJtkAH/e'
+    correo = str(bcrypt.hashpw(correoEn, sal))
+    contraseña = str(bcrypt.hashpw(contraseñaEn, sal))
     try:
         respuesta = mysqlconnector.Consulta_Usuarios(correo, contraseña)
         respuesta = respuesta.get_data(as_text=True)
         respuesta = json.loads(respuesta)
         usuario = respuesta['usuarios'][0]
-        print(usuario)
         session['usuario'] = usuario[1]
         if usuario[3] != 'admin':
             return render_template('home_usuario.html', usuario=usuario[1])
