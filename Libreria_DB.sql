@@ -96,6 +96,8 @@ insert into direcciones(calle,estado,municipio,colonia,cp,num_exterior,num_inter
 insert into usuarios(id_direccion, id_login,nombre,apellidos,numero_telefonico) values (1,1,"Cristobal Eduardo","Serrano Bahena", 7772689242);
 insert into usuarios(id_direccion, id_login,nombre,apellidos,numero_telefonico) values (2,2,"Lionel Andrés","Messi", 7772689243);
 
+insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio) values ("1","Hellblazer De Garth Ennis Vol.01","DC","Garth Ennis",2,"Disponible",499);
+insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio) values ("2","Batman: Enigmista","DC","McCarthy Castillo Ramos",1,"Disponible",329);
 
 DELIMITER $$
 CREATE PROCEDURE VerificarUsuario(
