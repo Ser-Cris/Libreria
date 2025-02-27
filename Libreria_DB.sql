@@ -1,7 +1,6 @@
 create database LibOnline;
-use LibOnline; 
-
-
+use LibOnline;
+DROP DATABASE libonline;
 create table Usuarios(
 id_usuario INT auto_increment,
 id_direccion INT NOT NULL,
@@ -52,6 +51,7 @@ autor VARCHAR(40) NOT NULL,
 stock NUMERIC(6) NOT NULL,
 estatus VARCHAR(20) NOT NULL,
 precio NUMERIC(5) NOT NULL,
+img_ruta VARCHAR(100) NOT NULL,
 PRIMARY KEY (id_libro)
 );
 
@@ -96,8 +96,8 @@ insert into direcciones(calle,estado,municipio,colonia,cp,num_exterior,num_inter
 insert into usuarios(id_direccion, id_login,nombre,apellidos,numero_telefonico) values (1,1,"Cristobal Eduardo","Serrano Bahena", 7772689242);
 insert into usuarios(id_direccion, id_login,nombre,apellidos,numero_telefonico) values (2,2,"Lionel Andrés","Messi", 7772689243);
 
-insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio) values ("1","Hellblazer De Garth Ennis Vol.01","DC","Garth Ennis",2,"Disponible",499);
-insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio) values ("2","Batman: Enigmista","DC","McCarthy Castillo Ramos",1,"Disponible",329);
+insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio,img_ruta) values ("1","Hellblazer De Garth Ennis Vol.01","DC","Garth Ennis",2,"Disponible",499,"static/img/Hellblazer De Garth Ennis Vol.01.jpg");
+insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio,img_ruta) values ("2","Batman: Enigmista","DC","McCarthy Castillo Ramos",1,"Disponible",329,"static/img/Batman Enigmista.png");
 
 DELIMITER $$
 CREATE PROCEDURE VerificarUsuario(
@@ -118,7 +118,7 @@ call VerificarUsuario("b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eOxTNSN27aeP6RpdrqCZqw8kpeK
 show tables;
 insert into Logins (correo,contrasena,privilegio) values ('20223tn999@utez.edu.mx','Cisco123','cliente');
 select * from Logins;
-insert into clientes 
+insert into clientes
   values ('Marcos Luis','marcosluis@gmail.com',aes_encrypt('5390700823285988','xyz123'));
 drop database libonline;
 drop table Compras;

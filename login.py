@@ -24,20 +24,20 @@ def index():
     sal = b'$2b$12$Bj2s7PI42QkpqlbJtkAH/e'
     correo = str(bcrypt.hashpw(correoEn, sal))
     contraseña = str(bcrypt.hashpw(contraseñaEn, sal))
-    try:
-        respuesta = mysqlconnector.Consulta_Usuarios(correo, contraseña)
-        respuesta = respuesta.get_data(as_text=True)
-        respuesta = json.loads(respuesta)
-        usuario = respuesta['usuarios'][0]
-        session['usuario'] = usuario[1]
-        if usuario[3] != 'admin':
-            return render_template('home_usuario.html', usuario=usuario[1])
-        else:
-            return render_template('home_admin.html', usuario=usuario[1])
+    #try:
+    respuesta = mysqlconnector.Consulta_Usuarios(correo, contraseña)
+    respuesta = respuesta.get_data(as_text=True)
+    respuesta = json.loads(respuesta)
+    usuario = respuesta['usuarios'][0]
+    session['usuario'] = usuario[1]
+    if usuario[3] != 'admin':
+        return render_template('home_usuario.html', usuario=usuario[1])
+    else:
+        return render_template('home_admin.html', usuario=usuario[1])
             #return 'Sesión iniciada para el usuario: ' + session['usuario']
-    except Exception as ex:
-        print('No tas en la base de datos')
-        return render_template('login.html', booleano=False)
+    #except Exception as ex:
+     #   print('No tas en la base de datos')
+      #  return render_template('login.html', booleano=False)
 
 @rutas_login.route('/logout')
 def logout():
