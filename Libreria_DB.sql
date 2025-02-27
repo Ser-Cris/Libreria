@@ -76,16 +76,10 @@ ALTER TABLE Compras ADD FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
 ALTER TABLE Envios ADD FOREIGN KEY (id_usuario) REFERENCES Compras(id_usuario);
 
 
-insert into logins(correo,contrasena, privilegio) values ("b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eYdm/VPLjttMYYTSVBSLrxCikTN0Gbwa'","b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'",'user');
+insert into logins(correo,contrasena, privilegio) values ("20223tn111@utez.edu.mx","b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'",'user');
+insert into logins(correo,contrasena, privilegio) values ("messi@utez.edu.mx","b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'",'admin');
 /*
-crico@utez.edu.mx encriptado:
-b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eYdm/VPLjttMYYTSVBSLrxCikTN0Gbwa'
-*/
-insert into logins(correo,contrasena, privilegio) values ("b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eOxTNSN27aeP6RpdrqCZqw8kpeKlVVJq'","b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'",'admin');
-/*
-messi@utez.edu.mx encriptado:
-b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eOxTNSN27aeP6RpdrqCZqw8kpeKlVVJq'
-contraseña de ambos encriptados (1234):
+contraseña de ambos encriptados con bcrypt (1234) :
 b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'
 */
 
@@ -110,9 +104,9 @@ END$$
 DELIMITER ;
 
 
+#drop database libonline;
 
-
-call VerificarUsuario("b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eOxTNSN27aeP6RpdrqCZqw8kpeKlVVJq'","b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'");
+call VerificarUsuario("messi@utez.edu.mx","b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'");
 
 /*
 show tables;
