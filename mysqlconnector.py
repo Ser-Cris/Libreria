@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flaskext.mysql import MySQL
+from login import desencriptar
 
 app = Flask(__name__)
 
@@ -33,6 +34,7 @@ def Consulta_Usuarios(correo,contrasena):
         conn = mysql.connect()
         cursor = conn.cursor()
         proc_alma = "CALL VerificarUsuario(%s, %s)"
+        correo = desencriptar(correo)
         cursor.execute(proc_alma,(correo,contrasena))
         print("yayirobe")
         usuario = cursor.fetchall()
@@ -40,5 +42,6 @@ def Consulta_Usuarios(correo,contrasena):
         print(data['usuarios'][0][3])
         conn.close()
     except Exception as ex:
+        print("Error en la consulta sql: ",ex)
         data['mensaje'] = 'Error...'
     return jsonify(data)
