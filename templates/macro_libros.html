@@ -1,0 +1,17 @@
+{% macro mostrar_libros(libros) %}
+    {% for libro in libros %}
+    <div class="col">
+        <div class="card">
+           <img src="{{ libro.imagen }}" class="card-img-top" alt="{{ libro.titulo }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ libro.titulo }}</h5>
+                <p class="card-text">{{ libro.descripcion }}</p>
+                <p class="card-text"><small class="text-muted">{{ libro.ultima_actualizacion }}</small></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{libro.precio}}</li>
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+{% endmacro %}

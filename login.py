@@ -56,7 +56,7 @@ def index():
             #return 'Sesión iniciada para el usuario: ' + session['usuario']
     except Exception as ex:
         print('No tas en la base de datos', ex)
-        return render_template('login.html', booleano=False)
+
 
 @rutas_login.route('/logout')
 def logout():
