@@ -5,9 +5,9 @@
 
 {% block page_content %}
 
-<h1>Bienvenido usuario cliente ! {{ usuario }}</h1>
-    <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10 position-relative top-0 start-50 translate-middle-x p-2 mt-2" id="principal">
-        <div class="row row-cols-5 d-flex flex-wrap" id="muestra_libros">
+<h1 class="scale-up-center">Bienvenido usuario cliente ! {{ usuario }}</h1>
+    <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10 position-relative top-0 start-50 translate-middle-x p-2 mt-2" id="principal" >
+        <div class="row row-cols-5 d-flex flex-wrap " id="muestra_libros">
 
         </div>
     </div>
@@ -41,7 +41,12 @@
         principal = document.getElementById("principal")
         libros.forEach(lb => {
             const columna = document.createElement("div");
-            columna.classList.add("col");
+            var elemento = "my-element"+lb[0]
+            console.log(elemento)
+            columna.classList.add("col", "scale-up-center",elemento.toString());
+            elemento = '.'+elemento;
+            columna.setAttribute('onmouseover', `animateCSS('${elemento.toString()}','pulse');`);
+            columna.setAttribute('onclick', `window.location.href='/libros/${lb[1]}?id=${lb[0]}'`);
             const card = document.createElement("div");
             card.classList.add("card");
             const img = document.createElement("img");
@@ -80,7 +85,7 @@
 
             const h5_badge = document.createElement('h5');
             const badge = document.createElement('span');
-            badge.classList.add("badge", "text-bg-info");
+            badge.classList.add("badge", "text-bg-info","position-absolute","word-break");
             badge.innerHTML = lb[5];
             const div_otro = document.createElement('div');
             div_otro.classList.add('col-7');

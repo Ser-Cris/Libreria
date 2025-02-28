@@ -12,6 +12,21 @@ app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'  # Asegúrate de que esta línea
 
 mysql = MySQL()
 mysql.init_app(app)
+
+
+def consultaUn_Libro(id):
+    data = {}
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM libros where id_libro = %s", (id,))
+        libros = cursor.fetchall()
+        data['libros'] = libros
+        conn.close()
+    except Exception as ex:
+        data['mensaje'] = 'Error...'
+    return jsonify(data)
+
 def consulta_Libros():
     data = {}
     try:

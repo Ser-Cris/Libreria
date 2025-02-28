@@ -1,0 +1,36 @@
+{% extends 'base_user.html' %}
+
+{% block title %}Bienvenido{% endblock %}
+
+{% block page_content %}
+
+    <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9 position-relative top-0 start-50 translate-middle-x p-2 mt-2" id="principal" >
+        <div class="row row-cols-1 d-flex flex-wrap " id="contedor">
+            <div class="card mb-3" style="max-width: 1500px;">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="../{{libro[7]}}" class="img-fluid rounded-start  p-3" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h2 class="card-title">{{libro[1]}}</h2>
+                        <h4 class="card-subtitle mb-2 text-muted">{{libro[2]}}</h4>
+                        <p class="card-text">Los Avengers protegen al planeta desde la Ciudad Imposible, su superfortaleza orbital. Pero un cuartel no es necesariamente un hogar, y en territorio nuevo, los Avengers son vulnerables... ¡Así que llegó el momento de llamar a uno de sus más viejos aliados para que venga en su ayuda! ¡LLEGA: EDWIN JARVIS! Además, es hora de formar un nuevo equipo de Avengers. Ataques orquestados buscan alimentar la histeria anti-mutante, pero algunos de los mejores amigos de Steve Rogers son mutantes. Este nuevo equipo deberá resolver el misterio de quién es el nuevo Capitán Krakoa, y detener a los asesinos antes de que enciendan las llamas de una nueva guerra mundial.</p>
+                          <p class="card-text"><small class="text-muted"><b>Autor:</b> {{libro[3]}}</small></p>
+                          <hr>
+                          <p class="fs-1 fw-bold text-success">${{libro[6]}}</p>
+                          <div class="row-cols-1">
+                              <button class="btn btn-success">Agregar al carrito</button>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        </div>
+    </div>
+
+
+    <script>
+
+    </script>
+{% endblock %}
