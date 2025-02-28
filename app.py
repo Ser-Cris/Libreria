@@ -6,12 +6,17 @@ import os
 from login import rutas_login
 from libros import rutas_libros
 
+
+
+
 def create_app():
     app = Flask(__name__)
     app.register_blueprint(rutas_login)
     app.register_blueprint(rutas_libros)
     app.secret_key = os.urandom(24)
-    
+    @app.errorhandler(405)
+    def method_not_allowed(e):
+        return render_template('304.html'), 405
     @app.route('/')
     def hello_world():
         respuesta =mysqlconnector.usuarios()
