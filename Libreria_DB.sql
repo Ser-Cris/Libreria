@@ -66,7 +66,16 @@ PRIMARY KEY (id_compra),
 FOREIGN KEY (id_libro) REFERENCES Libros(id_libro)
 );
 
-
+create table Ranking(
+id_ranking INT auto_increment,
+id_usuario INT NOT NULL,
+id_libro VARCHAR(12) NOT NULL,
+ranking INT(1) NOT NULL,
+cantidad_calificaciones INT(6) NOT NULL,
+PRIMARY KEY (id_ranking),
+FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario),
+FOREIGN KEY (id_libro) REFERENCES Libros(id_libro)
+);
 
 ALTER TABLE Usuarios ADD FOREIGN KEY (id_direccion) REFERENCES Direcciones(id_direccion);
 ALTER TABLE Usuarios ADD FOREIGN KEY (id_login) REFERENCES Logins(id_login);
@@ -92,10 +101,7 @@ insert into usuarios(id_direccion, id_login,nombre,apellidos,numero_telefonico) 
 
 insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio,img_ruta) values ("1","Hellblazer De Garth Ennis Vol.01","DC","Garth Ennis",2,"Disponible",499,"static/img/Hellblazer De Garth Ennis Vol.01.jpg");
 insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio,img_ruta) values ("2","Batman: Enigmista","DC","McCarthy Castillo Ramos",1,"Disponible",329,"static/img/Batman Enigmista.png");
-insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio,img_ruta) values ("3","Daredevil Vol.01","Marvel","Saladin Ahmed",2,"Nuevo",169,"static/img/Daredevil Vol.01.png");
-insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio,img_ruta) values ("4","Wolverine Vol.9","Marvel","Percy Lavalle",2,"Nuevo",149,"static/img/Wolverine Vol.9.png");
-insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio,img_ruta) values ("5","The Amazing Spider-Man #25","Marvel","Wells",2,"Nuevo",79,"static/img/The Amazing Spider-Man 25.png");
-insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio,img_ruta) values ("6","Flash Vol.02","DC","Perez Dogson",2,"Nuevo",209,"static/img/Flash Vol.02.png");
+
 DELIMITER $$
 CREATE PROCEDURE VerificarUsuario(
 	in chamo VARCHAR(256),
@@ -108,7 +114,7 @@ DELIMITER ;
 
 
 #drop database libonline;
-select * from Libros;
+
 call VerificarUsuario("messi@utez.edu.mx","b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'");
 
 /*
