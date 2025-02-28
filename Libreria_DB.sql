@@ -84,7 +84,7 @@ b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'
 */
 
 
-insert into direcciones(calle,estado,municipio,colonia,cp,num_exterior,num_interior) values ("1","2","3","4","5","6","7");
+insert into direcciones(calle,estado,municipio,colonia,cp,num_exterior,num_interior) values ("Av siempre viva","Morelos","Jiutepec","La Campestre","62553","6","0");
 insert into direcciones(calle,estado,municipio,colonia,cp,num_exterior,num_interior) values ("7","6","5","4","3","2","1");
 
 insert into usuarios(id_direccion, id_login,nombre,apellidos,numero_telefonico) values (1,1,"Cristobal Eduardo","Serrano Bahena", 7772689242);
@@ -110,6 +110,35 @@ DELIMITER ;
 #drop database libonline;
 select * from Libros;
 call VerificarUsuario("messi@utez.edu.mx","b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'");
+
+DELIMITER $$
+CREATE PROCEDURE VerificarDireccionyUsuario(
+	in chivas INT,
+    in necaxa INT
+)
+BEGIN
+	SELECT 
+        u.nombre, 
+        u.apellidos, 
+        u.numero_telefonico, 
+        d.calle, 
+        d.estado, 
+        d.municipio, 
+        d.colonia, 
+        d.cp, 
+        d.num_exterior, 
+        d.num_interior
+    FROM 
+        Direcciones d
+    JOIN 
+        Usuarios u ON u.id_direccion = d.id_direccion
+	WHERE 
+        d.id_direccion = chivas
+        AND u.id_usuario = necaxa;
+END $$
+DELIMITER ;
+
+call VerificarDireccionyUsuario(1,1);
 
 /*
 show tables;

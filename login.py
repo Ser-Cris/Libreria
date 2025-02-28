@@ -49,14 +49,17 @@ def index():
         respuesta = json.loads(respuesta)
         usuario = respuesta['usuarios'][0]
         session['usuario'] = usuario[1]
+        session['id'] = usuario[0]
         if usuario[3] != 'admin':
-            return render_template('home_usuario.html', usuario=usuario[1])
+            return render_template('home_usuario.html', esternocleidomastoideo=session['id'])
         else:
             return render_template('home_admin.html', usuario=usuario[1])
             #return 'Sesión iniciada para el usuario: ' + session['usuario']
     except Exception as ex:
         print('No tas en la base de datos', ex)
-
+@rutas_login.route('/actualizar', methods=['POST'])
+def actualizar():
+    return 'hola'
 
 @rutas_login.route('/logout')
 def logout():

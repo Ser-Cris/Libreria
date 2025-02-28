@@ -30,7 +30,7 @@ def usuarios():
     try:
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT nombre, apellidos, numero_telefonico FROM usuarios")
+        cursor.execute("SELECT id_usuario,nombre, apellidos, numero_telefonico FROM usuarios")
         usuarios = cursor.fetchall()
         data['usuarios'] = usuarios
         conn.close()
@@ -51,6 +51,20 @@ def Consulta_Usuarios(correo,contrasena):
         usuario = cursor.fetchall()
         data['usuarios'] = usuario
         print(data['usuarios'][0][3])
+        conn.close()
+    except Exception as ex:
+        print("Error en la consulta sql: ",ex)
+        data['mensaje'] = 'Error...'
+    return jsonify(data)
+def Consulta_Direccion(id_usuario):
+    data = {}
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        proc_alma = "CALL VerificarDireccionyUsuario(%s, %s)"
+        cursor.execute(proc_alma,(id_usuario,id_usuario))
+        dirNombre = cursor.fetchall()
+        data['datos'] = dirNombre
         conn.close()
     except Exception as ex:
         print("Error en la consulta sql: ",ex)
