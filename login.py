@@ -59,7 +59,28 @@ def index():
         print('No tas en la base de datos', ex)
 @rutas_login.route('/actualizar', methods=['POST'])
 def actualizar():
-    return 'hola'
+    nombres = request.form.get('nombres')
+    apellidos = request.form.get('apellidos')
+    num_telefonico = request.form.get('num_telefonico')
+    calle = request.form.get('calle')
+    num_interior = request.form.get('num_interior')
+    num_exterior = request.form.get('num_exterior')
+    municipio = request.form.get('municipio')
+    colonia = request.form.get('colonia')
+    estado = request.form.get('estado')
+    cp = request.form.get('cp')
+    print(nombres,apellidos,num_telefonico,calle,num_interior,num_exterior,municipio,colonia,estado,cp, sep="\t")
+    try:
+        respuesta = mysqlconnector.Actualizar_Direccion(session['id'],nombres, apellidos, num_telefonico, calle, num_interior, num_exterior, municipio, colonia, estado, cp)
+        respuesta = respuesta.get_data(as_text=True)
+        respuesta = json.loads(respuesta)
+        if respuesta['estatus'] == True:
+            return render_template('success_actu.html')
+        else:
+            return render_template('error_actu.html')
+    except:
+        print("No se ha podido actualizar")
+        return render_template("perfil.html")
 
 @rutas_login.route('/logout')
 def logout():

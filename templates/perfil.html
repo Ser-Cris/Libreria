@@ -8,42 +8,41 @@
     <form class="form-control" action="/actualizar" method="POST">
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="nombres">Nombres</label>
-          <input type="text" class="form-control" id="nombres" value="{{ data['datos'][0][0] }}">
+          <input type="text" class="form-control" name="nombres" value="{{ data['datos'][0][0] }}">
         </div>
         <div class="form-group col-md-6">
           <label for="apellidos">Apellidos</label>
-          <input type="text" class="form-control" id="apellidos" value="{{ data['datos'][0][1] }}">
+          <input type="text" class="form-control" id="apellidos" name="apellidos" value="{{ data['datos'][0][1] }}">
         </div>
         <div class="form-group col-md-6">
           <label for="num_telefonico">Télefono</label>
-          <input type="text" class="form-control" id="num_telefonico" value="{{ data['datos'][0][2] }}">
+          <input type="text" class="form-control" id="num_telefonico" name="num_telefonico" value="{{ data['datos'][0][2] }}">
         </div>
       </div>
       <div class="form-group">
         <label for="calle">Calle</label>
-        <input type="text" class="form-control" id="calle" value="{{ data['datos'][0][3] }}">
+        <input type="text" class="form-control" id="calle" name="calle" value="{{ data['datos'][0][3] }}">
       </div>
       <div class="form-group">
         <label for="num_interior">Número Interior</label>
-        <input type="text" class="form-control" id="num_interior" value="{{ data['datos'][0][8] }}">
+        <input type="text" class="form-control" id="num_interior" name="num_interior" value="{{ data['datos'][0][8] }}">
       </div>
       <div class="form-group">
         <label for="num_exterior">Número Exterior</label>
-        <input type="text" class="form-control" id="num_exterior" value="{{ data['datos'][0][9] }}">
+        <input type="text" class="form-control" id="num_exterior" name="num_exterior" value="{{ data['datos'][0][9] }}">
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="ciudad">Ciudad</label>
-          <input type="text" class="form-control" id="ciudad" value="{{ data['datos'][0][5] }}">
+          <label for="municipio">Municipio</label>
+          <input type="text" class="form-control" id="municipio" name="municipio" value="{{ data['datos'][0][5] }}">
         </div>
         <div class="form-group col-md-6">
           <label for="colonia">Colonia</label>
-          <input type="text" class="form-control" id="colonia" value="{{ data['datos'][0][6] }}">
+          <input type="text" class="form-control" id="colonia" name="colonia" value="{{ data['datos'][0][6] }}">
         </div>
         <div class="form-group col-md-4">
           <label for="estado">Estado</label>
-          <select id="estado" class="form-control">
+          <select id="estado" class="form-control" name="estado" value="{{ data['datos'][0][4] }}">
             <option selected>{{ data['datos'][0][4] }}</option>
             <option>Morelos</option>
             <option>Guerrero</option>
@@ -53,7 +52,7 @@
         </div>
         <div class="form-group col-md-2">
           <label for="cp">Código Postal</label>
-          <input type="text" class="form-control" id="cp" value="{{ data['datos'][0][7] }}">
+          <input type="text" class="form-control" id="cp" name="cp" value="{{ data['datos'][0][7] }}">
         </div>
       </div>
       <button type="submit" class="btn btn-primary">Actualizar datos</button>
