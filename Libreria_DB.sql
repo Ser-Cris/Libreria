@@ -140,6 +140,43 @@ DELIMITER ;
 
 call VerificarDireccionyUsuario(1,1);
 
+DELIMITER $$
+CREATE PROCEDURE ActualizarDireccionyUsuario(
+	in idUsuario INT,
+    in nombre VARCHAR(30),
+    in apellido VARCHAR(30),
+    in numTelefono NUMERIC(10),
+    in calle VARCHAR(25),
+    in numInterior NUMERIC(4),
+    in numExterior NUMERIC(4),
+    in municipio VARCHAR(25),
+    in colonia VARCHAR(25),
+    in estado VARCHAR(20),
+    in cp NUMERIC(5)
+)
+BEGIN
+    -- Actualiza la tabla usuarios
+    UPDATE usuarios
+    SET nombre = nombre,
+        apellidos = apellido,
+        numero_telefonico = numTelefono
+    WHERE id_usuario = idUsuario;
+
+    -- Actualiza la tabla direccion
+    UPDATE direcciones
+    SET calle = calle,
+        estado = estado,
+        municipio = municipio,
+        colonia = colonia,
+        cp = cp,
+        num_interior = numInterior,
+        num_exterior = numExterior
+    WHERE id_direccion = idUsuario;
+END$$    
+DELIMITER ;
+
+CALL ActualizarDireccionyUsuario(1, "Jose Angel", "Renteria Rivera", 7443460853, "Calle elm", 110, 28, "Acapulco","Renacimiento","Guerrero",39715);
+select * from usuarios;
 /*
 show tables;
 insert into Logins (correo,contrasena,privilegio) values ('20223tn999@utez.edu.mx','Cisco123','cliente');
