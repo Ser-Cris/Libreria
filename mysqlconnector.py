@@ -45,7 +45,7 @@ def usuarios():
     try:
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT nombre, apellidos, numero_telefonico FROM usuarios")
+        cursor.execute("SELECT id_usuario,nombre, apellidos, numero_telefonico FROM usuarios")
         usuarios = cursor.fetchall()
         data['usuarios'] = usuarios
         conn.close()
@@ -70,4 +70,35 @@ def Consulta_Usuarios(correo,contrasena):
     except Exception as ex:
         print("Error en la consulta sql: ",ex)
         data['mensaje'] = 'Error...'
+    return jsonify(data)
+def Consulta_Direccion(id_usuario):
+    data = {}
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        proc_alma = "CALL VerificarDireccionyUsuario(%s, %s)"
+        cursor.execute(proc_alma,(id_usuario,id_usuario))
+        dirNombre = cursor.fetchall()
+        data['datos'] = dirNombre
+        conn.close()
+    except Exception as ex:
+        print("Error en la consulta sql: ",ex)
+        data['mensaje'] = 'Error...'
+    return jsonify(data)
+def Actualizar_Direccion(id_direccion,nombres,apellidos,num_telefonico,calle,num_interior,num_exterior,municipio,colonia,estado,cp):
+    data = {}
+    try:
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        #proc_alma = "CALL ActualizarDireccionyUsuario(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        cursor.callproc('ActualizarDireccionyUsuario',[id_direccion,nombres,apellidos,num_telefonico,calle,num_interior,num_exterior,municipio,colonia,estado,cp])
+        conn.commit()
+        dirNombre = cursor.fetchall()
+        data['datos'] = dirNombre
+        cursor.close()
+        conn.close()
+        data['estatus'] = True
+    except Exception as ex:
+        print("Error en la consulta sql: ", ex)
+        data['estatus'] = False
     return jsonify(data)
