@@ -78,15 +78,12 @@ def Actualizar_Direccion(id_direccion,nombres,apellidos,num_telefonico,calle,num
         #proc_alma = "CALL ActualizarDireccionyUsuario(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor.callproc('ActualizarDireccionyUsuario',[id_direccion,nombres,apellidos,num_telefonico,calle,num_interior,num_exterior,municipio,colonia,estado,cp])
         conn.commit()
-        print("aki pasó algo")
         dirNombre = cursor.fetchall()
         data['datos'] = dirNombre
         cursor.close()
         conn.close()
         data['estatus'] = True
-        print("Todo salió joya")
     except Exception as ex:
-        print("Cuararé y cuararé")
         print("Error en la consulta sql: ", ex)
         data['estatus'] = False
     return jsonify(data)

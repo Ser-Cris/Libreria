@@ -1,4 +1,4 @@
-from flask import Flask, session,request,Blueprint, render_template
+from flask import Flask, session, request, Blueprint, render_template
 from cryptography.fernet import Fernet
 import mysqlconnector
 import json
@@ -41,47 +41,48 @@ def datitos():
     return ("hola")
 @rutas_login.route('/entra', methods=['POST'])
 def index():
-    correo = encriptar(request.form.get('correo'))
-    contraseña = encriptarContr(request.form.get('contrasena'))
-    try:
-        respuesta = mysqlconnector.Consulta_Usuarios(correo, contraseña)
-        respuesta = respuesta.get_data(as_text=True)
-        respuesta = json.loads(respuesta)
-        usuario = respuesta['usuarios'][0]
-        session['usuario'] = usuario[1]
-        session['id'] = usuario[0]
-        if usuario[3] != 'admin':
-            return render_template('home_usuario.html', esternocleidomastoideo=session['id'])
-        else:
-            return render_template('home_admin.html', usuario=usuario[1])
-            #return 'Sesión iniciada para el usuario: ' + session['usuario']
-    except Exception as ex:
-        print('No tas en la base de datos', ex)
+    if request.method == 'POST':
+        correo = encriptar(request.form.get('correo'))
+        contraseña = encriptarContr(request.form.get('contrasena'))
+        try:
+            respuesta = mysqlconnector.Consulta_Usuarios(correo, contraseña)
+            respuesta = respuesta.get_data(as_text=True)
+            respuesta = json.loads(respuesta)
+            usuario = respuesta['usuarios'][0]
+            session['usuario'] = usuario[1]
+            session['id'] = usuario[0]
+            if usuario[3] != 'admin':
+                return render_template('home_usuario.html')
+            else:
+                return render_template('home_admin.html', usuario=usuario[1])
+                #return 'Sesión iniciada para el usuario: ' + session['usuario']
+        except Exception as ex:
+            print('No tas en la base de datos', ex)
 @rutas_login.route('/actualizar', methods=['POST'])
 def actualizar():
-    nombres = request.form.get('nombres')
-    apellidos = request.form.get('apellidos')
-    num_telefonico = request.form.get('num_telefonico')
-    calle = request.form.get('calle')
-    num_interior = request.form.get('num_interior')
-    num_exterior = request.form.get('num_exterior')
-    municipio = request.form.get('municipio')
-    colonia = request.form.get('colonia')
-    estado = request.form.get('estado')
-    cp = request.form.get('cp')
-    print(nombres,apellidos,num_telefonico,calle,num_interior,num_exterior,municipio,colonia,estado,cp, sep="\t")
-    try:
-        respuesta = mysqlconnector.Actualizar_Direccion(session['id'],nombres, apellidos, num_telefonico, calle, num_interior, num_exterior, municipio, colonia, estado, cp)
-        respuesta = respuesta.get_data(as_text=True)
-        respuesta = json.loads(respuesta)
-        if respuesta['estatus'] == True:
-            return render_template('success_actu.html')
-        else:
-            return render_template('error_actu.html')
-    except:
-        print("No se ha podido actualizar")
-        return render_template("perfil.html")
-
+    if request.method == "POST":
+        nombres = request.form.get('nombres')
+        apellidos = request.form.get('apellidos')
+        num_telefonico = request.form.get('num_telefonico')
+        calle = request.form.get('calle')
+        num_interior = request.form.get('num_interior')
+        num_exterior = request.form.get('num_exterior')
+        municipio = request.form.get('municipio')
+        colonia = request.form.get('colonia')
+        estado = request.form.get('estado')
+        cp = request.form.get('cp')
+        print(nombres,apellidos,num_telefonico,calle,num_interior,num_exterior,municipio,colonia,estado,cp, sep="\t")
+        try:
+            respuesta = mysqlconnector.Actualizar_Direccion(session['id'],nombres, apellidos, num_telefonico, calle, num_interior, num_exterior, municipio, colonia, estado, cp)
+            respuesta = respuesta.get_data(as_text=True)
+            respuesta = json.loads(respuesta)
+            if respuesta['estatus'] == True:
+                return render_template('success_actu.html')
+            else:
+                return render_template('error_actu.html')
+        except:
+            print("No se ha podido actualizar")
+            return render_template("perfil.html")
 @rutas_login.route('/logout')
 def logout():
     session.pop('usuario', None)
