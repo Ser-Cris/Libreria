@@ -93,7 +93,7 @@ b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'
 */
 
 
-insert into direcciones(calle,estado,municipio,colonia,cp,num_exterior,num_interior) values ("1","2","3","4","5","6","7");
+insert into direcciones(calle,estado,municipio,colonia,cp,num_exterior,num_interior) values ("Av siempre viva","Morelos","Jiutepec","La Campestre","62553","6","0");
 insert into direcciones(calle,estado,municipio,colonia,cp,num_exterior,num_interior) values ("7","6","5","4","3","2","1");
 
 insert into usuarios(id_direccion, id_login,nombre,apellidos,numero_telefonico) values (1,1,"Cristobal Eduardo","Serrano Bahena", 7772689242);
@@ -101,7 +101,10 @@ insert into usuarios(id_direccion, id_login,nombre,apellidos,numero_telefonico) 
 
 insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio,img_ruta) values ("1","Hellblazer De Garth Ennis Vol.01","DC","Garth Ennis",2,"Disponible",499,"static/img/Hellblazer De Garth Ennis Vol.01.jpg");
 insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio,img_ruta) values ("2","Batman: Enigmista","DC","McCarthy Castillo Ramos",1,"Disponible",329,"static/img/Batman Enigmista.png");
-
+insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio, img_ruta) values ("3","Daredevil Vol.01","Marvel","Saladin Ahmed",2,"Nuevo",169,"static/img/Daredevil Vol.01.png");
+insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio, img_ruta) values ("4","Wolverine Vol.9","Marvel","Percy Lavalle",2,"Nuevo",149,"static/img/Wolverine Vol.9.png");
+insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio, img_ruta) values ("5","The Amazing Spider-Man #25","Marvel","Wells",2,"Nuevo",79,"static/img/The Amazing Spider-Man 25.png");
+insert into Libros(id_libro, nombre, editorial, autor, stock, estatus, precio, img_ruta) values ("6","Flash Vol.02","DC","Perez Dogson",2,"Nuevo",209,"static/img/Flash Vol.02.png");
 DELIMITER $$
 CREATE PROCEDURE VerificarUsuario(
 	in chamo VARCHAR(256),
@@ -117,6 +120,72 @@ DELIMITER ;
 
 call VerificarUsuario("messi@utez.edu.mx","b'$2b$12$Bj2s7PI42QkpqlbJtkAH/eR12/Tvs.IJYWlf6eU14Tf/G0FsL0FL2'");
 
+DELIMITER $$
+CREATE PROCEDURE VerificarDireccionyUsuario(
+	in chivas INT,
+    in necaxa INT
+)
+BEGIN
+	SELECT 
+        u.nombre, 
+        u.apellidos, 
+        u.numero_telefonico, 
+        d.calle, 
+        d.estado, 
+        d.municipio, 
+        d.colonia, 
+        d.cp, 
+        d.num_exterior, 
+        d.num_interior
+    FROM 
+        Direcciones d
+    JOIN 
+        Usuarios u ON u.id_direccion = d.id_direccion
+	WHERE 
+        d.id_direccion = chivas
+        AND u.id_usuario = necaxa;
+END $$
+DELIMITER ;
+
+call VerificarDireccionyUsuario(1,1);
+
+DELIMITER $$
+CREATE PROCEDURE ActualizarDireccionyUsuario(
+	in idUsuario INT,
+    in nombre VARCHAR(30),
+    in apellido VARCHAR(30),
+    in numTelefono NUMERIC(10),
+    in calle VARCHAR(25),
+    in numInterior NUMERIC(4),
+    in numExterior NUMERIC(4),
+    in municipio VARCHAR(25),
+    in colonia VARCHAR(25),
+    in estado VARCHAR(20),
+    in cp NUMERIC(5)
+)
+BEGIN
+    -- Actualiza la tabla usuarios
+    UPDATE usuarios
+    SET nombre = nombre,
+        apellidos = apellido,
+        numero_telefonico = numTelefono
+    WHERE id_usuario = idUsuario;
+
+    -- Actualiza la tabla direccion
+    UPDATE direcciones
+    SET calle = calle,
+        estado = estado,
+        municipio = municipio,
+        colonia = colonia,
+        cp = cp,
+        num_interior = numInterior,
+        num_exterior = numExterior
+    WHERE id_direccion = idUsuario;
+END$$    
+DELIMITER ;
+
+#CALL ActualizarDireccionyUsuario(1, "Jose Angel", "Renteria Rivera", 7443460853, "Calle elm", 110, 28, "Acapulco","Renacimiento","Guerrero",39715);
+#select * from usuarios;
 /*
 show tables;
 insert into Logins (correo,contrasena,privilegio) values ('20223tn999@utez.edu.mx','Cisco123','cliente');

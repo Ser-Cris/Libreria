@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask,render_template,request
 import mysqlconnector
 import requests
@@ -5,8 +7,8 @@ import os
 
 from login import rutas_login
 from libros import rutas_libros
-
-
+from mysqlconnector import Consulta_Direccion
+from login import session
 
 
 def create_app():
@@ -26,4 +28,11 @@ def create_app():
     @app.route('/login')
     def login():
         return render_template('login.html')
+    @app.route('/mi-perfil')
+    def mi_perfil():
+        data = Consulta_Direccion(session['id'])
+        data = data.get_data(as_text=True)
+        data = json.loads(data)
+        print(data,type(data),sep="\n")
+        return render_template('perfil.html',data=data)
     return app

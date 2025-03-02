@@ -1,55 +1,96 @@
-{% extends 'base.html' %}
+{% extends 'base_user.html' %}
 
-{% block title %}Index{% endblock %}
-
+{% block title %}Mi Perfil{% endblock %}
+{% block CustomCSS %}
+<style>
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .form-group {
+            flex: 1 1 50%;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+        .form-group.full-width {
+            flex: 1 1 100%;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
 
 {% block page_content %}
 
-    <form>
-      <div class="form-row">
+    <form class="form-container" action="/actualizar" method="POST">
+      <div class="form-container">
         <div class="form-group col-md-6">
-          <label for="inputEmail4">Email</label>
-          <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-        </div>
-        <div class="form-group col-md-6">
-          <label for="inputPassword4">Password</label>
-          <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="inputAddress">Address</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-      </div>
-      <div class="form-group">
-        <label for="inputAddress2">Address 2</label>
-        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputCity">City</label>
-          <input type="text" class="form-control" id="inputCity">
+          <label for="nombres">Nombres</label>
+          <input type="text" class="form-control" id ="nombres" name="nombres" value="{{ data['datos'][0][0] }}">
         </div>
         <div class="form-group col-md-4">
-          <label for="inputState">State</label>
-          <select id="inputState" class="form-control">
-            <option selected>Choose...</option>
-            <option>...</option>
+          <label for="apellidos">Apellidos</label>
+          <input type="text" class="form-control" id="apellidos" name="apellidos" value="{{ data['datos'][0][1] }}">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="num_telefonico">Télefono</label>
+          <input type="text" class="form-control" id="num_telefonico" name="num_telefonico" value="{{ data['datos'][0][2] }}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="calle">Calle</label>
+          <input type="text" class="form-control" id="calle" name="calle" value="{{ data['datos'][0][3] }}">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="num_interior">Número Interior</label>
+          <input type="text" class="form-control" id="num_interior" name="num_interior" value="{{ data['datos'][0][8] }}">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="num_exterior">Número Exterior</label>
+          <input type="text" class="form-control" id="num_exterior" name="num_exterior" value="{{ data['datos'][0][9] }}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="municipio">Municipio</label>
+          <input type="text" class="form-control" id="municipio" name="municipio" value="{{ data['datos'][0][5] }}">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="colonia">Colonia</label>
+          <input type="text" class="form-control" id="colonia" name="colonia" value="{{ data['datos'][0][6] }}">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="estado">Estado</label>
+          <select id="estado" class="form-control" name="estado" value="{{ data['datos'][0][4] }}">
+            <option selected>{{ data['datos'][0][4] }}</option>
+            <option>Morelos</option>
+            <option>Guerrero</option>
+            <option>CdMx</option>
+            <option>Estado de México</option>
           </select>
         </div>
         <div class="form-group col-md-2">
-          <label for="inputZip">Zip</label>
-          <input type="text" class="form-control" id="inputZip">
+          <label for="cp">Código Postal</label>
+          <input type="text" class="form-control" id="cp" name="cp" value="{{ data['datos'][0][7] }}">
         </div>
       </div>
-      <div class="form-group">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="gridCheck">
-          <label class="form-check-label" for="gridCheck">
-            Check me out
-          </label>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary">Sign in</button>
+      <button type="submit" class="btn btn-primary">Actualizar datos</button>
     </form>
-
 {% endblock %}
