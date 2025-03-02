@@ -70,12 +70,13 @@ create table Ranking(
 id_ranking INT auto_increment,
 id_usuario INT NOT NULL,
 id_libro VARCHAR(12) NOT NULL,
-ranking INT(1) NOT NULL,
+ranking INT(10) NOT NULL,
 cantidad_calificaciones INT(6) NOT NULL,
 PRIMARY KEY (id_ranking),
 FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario),
 FOREIGN KEY (id_libro) REFERENCES Libros(id_libro)
 );
+
 
 ALTER TABLE Usuarios ADD FOREIGN KEY (id_direccion) REFERENCES Direcciones(id_direccion);
 ALTER TABLE Usuarios ADD FOREIGN KEY (id_login) REFERENCES Logins(id_login);
