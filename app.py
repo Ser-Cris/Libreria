@@ -4,7 +4,8 @@ from flask import Flask,render_template,request
 import mysqlconnector
 import requests
 import os
-
+from mysqlconnector import Guardar_calificacion
+from mysqlconnector import rutas_mysql
 from login import rutas_login
 from libros import rutas_libros
 from mysqlconnector import Consulta_Direccion
@@ -15,6 +16,7 @@ def create_app():
     app = Flask(__name__)
     app.register_blueprint(rutas_login)
     app.register_blueprint(rutas_libros)
+    app.register_blueprint(rutas_mysql)
     app.secret_key = os.urandom(24)
     @app.errorhandler(405)
     def method_not_allowed(e):

@@ -1,8 +1,11 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request, Blueprint
 from flaskext.mysql import MySQL
 from login import desencriptar
 
 app = Flask(__name__)
+
+
+
 
 # Configuración de la base de datos MySQL
 app.config['MYSQL_DATABASE_USER'] = 'root'
@@ -12,6 +15,69 @@ app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'  # Asegúrate de que esta línea
 
 mysql = MySQL()
 mysql.init_app(app)
+
+rutas_mysql = Blueprint('rutas_mysql', __name__)
+@rutas_mysql.route('/Guardar_calificacion', methods=['GET'])
+def Guardar_calificacion():
+    try:
+        ## id_usuario = request.args.get('id_usuario')
+        ## id_libro = request.args.get('id_libro')
+
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        id_usuario = cursor.execute('SELECT id_usuario FROM Usuarios')
+        id_libro = cursor.execute('SELECT id_libro FROM Libros')
+        ranking = request.args.get('ranking')
+        if ranking is None:
+            return jsonify({"error": "Falta el parámetro ranking"}), 400
+
+        if not id_usuario or not id_libro or not ranking:
+            return jsonify({'error': 'Faltan datos'}), 400
+
+        ranking = int(ranking)
+
+
+        # Verificar si la calificación ya existe
+        cursor.execute("SELECT * FROM Ranking WHERE id_usuario = %s AND id_libro = %s", (id_usuario, id_libro))
+        calificacion_existente = cursor.fetchone()
+
+        if calificacion_existente:
+            nueva_suma_calificaciones = calificacion_existente[5] + ranking
+            nueva_cantidad_calificaciones = calificacion_existente[4] + 1
+
+            cursor.execute(
+                "UPDATE Ranking SET ranking = %s, cantidad_calificaciones = %s, suma_calificaciones = %s WHERE id_usuario = %s AND id_libro = %s",
+                (ranking, nueva_cantidad_calificaciones, nueva_suma_calificaciones, id_usuario, id_libro)
+            )
+        else:
+            cursor.execute(
+                "INSERT INTO Ranking (id_usuario, id_libro, ranking, cantidad_calificaciones, suma_calificaciones) VALUES (%s, %s, %s, %s, %s)",
+                (id_usuario, id_libro, ranking, 1, ranking)
+            )
+
+        conn.commit()
+
+        # Calcular el nuevo promedio
+        cursor.execute("SELECT suma_calificaciones, cantidad_calificaciones FROM Ranking WHERE id_libro = %s",
+                       (id_libro,))
+        resultado = cursor.fetchone()
+
+        if resultado:
+            suma_calificaciones = resultado[0]
+            cantidad_calificaciones = resultado[1]
+            promedio = suma_calificaciones / cantidad_calificaciones
+
+            data = {'promedio': promedio, 'mensaje': 'Calificación guardada exitosamente y promedio actualizado.'}
+        else:
+            data = {'mensaje': 'No se encontró el libro.'}
+
+        conn.close()
+
+        return jsonify(data)
+
+    except Exception as ex:
+        print(f"Error: {ex}")
+        return jsonify({'mensaje': 'Error al guardar la calificación'}), 500
 
 
 def consultaUn_Libro(id):
